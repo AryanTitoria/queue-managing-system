@@ -21,4 +21,36 @@ model Shop {
   numberOfChairs Int
   qrCodeUrl      String?
   createdAt      DateTime @default(now())
+
+  queueEntries   QueueEntry[]
+}
+
+enum QueueStatus {
+  WAITING
+  NOTIFIED
+  ARRIVED
+  SERVING
+  COMPLETED
+  SKIPPED
+}
+
+model QueueEntry {
+  id            String      @id @default(cuid())
+  tokenNumber   Int
+
+  customerName  String
+  phoneNumber   String
+
+  status        QueueStatus @default(WAITING)
+
+  joinedAt      DateTime    @default(now())
+  notifiedAt    DateTime?
+  arrivedAt     DateTime?
+  servingAt     DateTime?
+  completedAt   DateTime?
+
+  shopId        String
+  shop          Shop        @relation(fields: [shopId], references: [id])
+
+  createdAt     DateTime    @default(now())
 }
