@@ -35,22 +35,26 @@ enum QueueStatus {
 }
 
 model QueueEntry {
-  id            String      @id @default(cuid())
-  tokenNumber   Int
+  id                 String      @id @default(cuid())
 
-  customerName  String
-  phoneNumber   String
+  tokenNumber        Int
+  position           Int
 
-  status        QueueStatus @default(WAITING)
+  customerName       String
+  phoneNumber        String
 
-  joinedAt      DateTime    @default(now())
-  notifiedAt    DateTime?
-  arrivedAt     DateTime?
-  servingAt     DateTime?
-  completedAt   DateTime?
+  status             QueueStatus @default(WAITING)
 
-  shopId        String
-  shop          Shop        @relation(fields: [shopId], references: [id])
+  notificationSent   Boolean     @default(false)
 
-  createdAt     DateTime    @default(now())
+  joinedAt           DateTime    @default(now())
+  notifiedAt         DateTime?
+  arrivedAt          DateTime?
+  servingAt          DateTime?
+  completedAt        DateTime?
+
+  shopId             String
+  shop               Shop        @relation(fields: [shopId], references: [id])
+
+  createdAt          DateTime    @default(now())
 }
