@@ -1,5 +1,8 @@
 import express from "express";
-import { createShop, loginShop, getDashboardStats } from "../controllers/shopController.js";
+
+import { createShop } from "../controllers/shop/create.js";
+import { loginShop } from "../controllers/shop/login.js";
+import { getDashboardStats } from "../controllers/shop/getDashboard.js";
 
 const router = express.Router();
 
