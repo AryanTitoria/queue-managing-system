@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import prisma from "../../config/prisma.js";
 
 export const loginShop = async (req, res) => {
@@ -30,13 +31,25 @@ export const loginShop = async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+      {
+        shopId: shop.id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
     const { password: _, ...shopWithoutPassword } = shop;
 
     res.status(200).json({
       success: true,
       message: "Login successful",
+      token,
       shop: shopWithoutPassword,
     });
+
   } catch (error) {
     console.error(error);
 
